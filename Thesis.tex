@@ -1,0 +1,57 @@
+\documentclass[11pt,oneside]{uhthesis}
+\usepackage{subfigure}
+\usepackage[linesnumbered,lined,titlenumbered,ruled]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{mathpazo}
+\usepackage{float}
+\usepackage{verbatim} 
+
+
+%\floatstyle{ruled}
+%\restylefloat{table}
+
+\renewcommand{\tablename}{Tabla}
+%\dontprintsemicolon
+
+\title{Aprendizaje autom\'atico para clasificar entonemas en segmentos del habla en espa\~nol}
+\author{Masiel Villalba Carmenate}
+\advisor{MSc. Damian Vald\'es Santiago \\ \hspace{2.8cm} Dra.C. Raquel Mar\'ia Garc\'ia River\'on}
+\degree{Licenciado en Ciencia de la Computación}
+\faculty{Facultad de Matemática y Computación}
+\date{Septiembre de 2020}
+\logo{Graphics/uhlogo}
+\makenomenclature
+
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\diff}[1]{\ensuremath{\mathrm{d}#1}}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\renewcommand{\bibname}{Referencias}
+\include{FrontMatter/Dedication}
+%\include{FrontMatter/Thanks}
+\include{FrontMatter/SupervisorOpinion}
+\include{FrontMatter/Abstract}
+\include{FrontMatter/Contents}
+
+\mainmatter
+
+\include{MainMatter/Introduction}
+\include{MainMatter/Preliminares}
+\include{MainMatter/Sistemasent}
+\include{MainMatter/Background}
+\include{MainMatter/Results}
+
+\backmatter
+
+\include{BackMatter/Conclusions}
+\include{MainMatter/Recomendations}
+\include{MainMatter/Anexos}
+\include{BackMatter/Bibliography}
+
+
+\end{document}

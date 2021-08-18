@@ -1,0 +1,96 @@
+%===================================================================================
+% Chapter: Introduction
+%===================================================================================
+\chapter*{Introducción}\label{chapter:introduction}
+\addcontentsline{toc}{chapter}{Introducción}
+%===================================================================================
+
+\begin{comment}
+janet 1980
+cantero 1995
+
+el pudor de desnudarse de los habitos de la lengua propia para acomodarse a los de una lengua extranjera tiene en la entonacion su mas fuerte reducto navarro
+
+
+Importancia de la entonologia
+- sintesis de voz (porque hacer falta anotar bastantes curvas para entrenar una inteligencia rtificial que hable como un cubano x ejemplo)
+
+
+\cite[dificil de anotar a mano, transcripcion automatica]{silverman1992tobi}
+
+\end{comment}
+
+
+La entonolog\'ia es la rama de la ciencia que estudia la entonaci\'on. Es triste que, a pesar de lo interesante y necesaria, sea tan poco conocida. Se dice que su establecimiento como rama seria es relativamente joven, aunque su germen data del a\~no 1918 con el \emph{Manual de pronunciaci\'on espa\~nola} \cite{navarro1918manual} del fil\'ologo, bibliotecario y ling\"uista espa\~nol Tom\'as Navarro\footnote{M\'as bien considerado eminente fonetista \cite{garcia1996aspectos1}.}, donde dedica un apartado al fen\'omeno de la entonaci\'on. En su trascendente \emph{Manual de entonaci\'on espa\~nola}~(1944) \cite{tomas1974manual} aborda este tema con mayor plenitud.
+
+Como expresa Navarro:
+
+\begin{quote}
+``El conocimiento de la entonaci\'on es, pues, de la mayor importancia tanto para la recta inteligencia de lo que se oye como para la expresi\'on justa de lo que se quiere decir. (...) Es, en fin, cosa sabida que, cuando el tono contradice el sentido de las palabras, se atiende m\'as a lo que aqu\'el significa que a lo que estas representan.''
+\end{quote}
+
+
+
+esto claro, por la rica informaci\'on que se obtiene a partir de la interpretaci\'on del segmento entonativo:
+sentimientos, modalidad oracional, tema del enunciado, intencionalidad del hablante, etc. \cite{vidal2014entonacion}. 
+
+
+
+Muchos expertos, como la Dra.C. Raquel Mar\'ia Garc\'ia River\'on, prestigiosa enton\'ologa cubana, insisten en su inclusi\'on en los programas de estudio convencionales, en cursos intensivos para los medios de comunicaci\'on, el teatro y la locuci\'on y para el tratamiento de diversos trastornos de habla \cite{pedrosa2009entonacion}. Afortunadamente se han desarrollado varias investigaciones enfocadas a estudiar estas aplicaciones espec\'ificas \cite{riveronlocutores, marrero2007estudio}.
+
+
+Otra de las aplicaciones importantes de la entonolog\'ia es la construcci\'on de \emph{mapas pros\'odicos}
+que se especializan en la descripci\'on del habla regional. Cabe mencionar en este apartado el \emph{Atlas Ling\"uistico de Cuba} \cite{riveron1991atlas} y el desarrollo del proyecto AMPER \cite{roseanoetiquetaje, ruiz2014entonacion}.
+
+
+En el \'ambito de la \emph{ling\"u\'istica computacional} genera gran inte\'res tanto para la \emph{síntesis} como para el \emph{reconocimiento de voz}. La transformación de un texto a su correspondiente sonoro implica el uso de la entonación correcta y análogamente sucede en la conversión de habla a texto.
+
+
+Aunque queda mucho por descubrir y convenciones que adoptar, el andamiaje teórico y metodológico de la entonolog\'ia se ha ido construyendo paulatinamente gracias al inter\'es de muchos estudiosos: Antonio Quilis~(1975) \cite{quilis1975unidades}, Janet Pierrehumbert~(1980) \cite{pierrehumbert1980phonology}, Garrido~(1991) \cite{garrido1991modelizacion}, Cantero~(1995) \cite{cantero1995estructura}, pero, inicialmente, este problema golpeaba fuertemente los avances investigativos. Al respecto se\~nala Navarro:
+
+\begin{quote}
+``... el mayor obstáculo con que se tropieza en el estudio de esta materia no consiste tanto en la dificultad de medir la altura de los sonidos, como en la falta de normas adecuadas y eficientes para interpretar y ordenar de un modo apto para la relación comparativa histórica y lingüística, el valor de los resultados que con dichas medidas se obtiene.''
+\end{quote}
+
+
+De todas formas, los recursos técnicos para lIevar a cabo la medición de los indicadores acústicos de la entonación es otro factor que influye en el desarrollo de las investigaciones. Existen diversos instrumentos que han sido históricamente utilizados para esta tarea: el \emph{quimógrafo}, el \emph{oscilógrafo} y el \emph{sonógrafo} \cite{garcia1996aspectos2}. Actualmente la herramienta m\'as utilizada es el software \emph{Praat} \cite{goldman2011easyalign} utilizado para el an\'alisis cient\'ifico del habla de manera general: permite visualizar el \emph{espectrograma} del audio, el cocleagrama, los formantes, etc \cite{ruiz2014entonacion}. 
+
+
+\subsection*{Problema}
+
+La labor de Garc\'ia River\'on en fortalecer la entonolog\'ia como ciencia y elevar el inter\'es por su estudio ha sido meritoria y sobre todo en Cuba \cite{garcia2004entonacion, garcia2005estudio, riveronuniv, riveronguanta, cubadice, nottelecubana, raquel2018interrogativa, riveroncomplejo}.
+
+
+En su trilog\'ia \emph{Aspectos de la entonaci\'on hisp\'anica} \cite{garcia1996aspectos1, garcia1996aspectos2, garcia1998aspectos} define y asenta el sistema entonativo cubano, tomando como unidad b\'asica de an\'alisis los llamados \emph{entonemas}, que constituyen patrones de comportamiento de la curva melódica. Cada uno denota intenciones y emociones particulares en el enunciado.
+
+
+Los especialistas detectan los entonemas a oído, pero necesitan corroborar sus impresiones con distintos instrumentos como los anteriormente mencionados. Esto implica mayor exposición a errores y gasto de tiempo, pues ese segundo paso en la detección, que es la comprobación, no es directo, sino que requiere de cálculos manuales. En fin, se comprueba que esta tarea es particularmente compleja \cite{silverman1992tobi}. Aunque se han construido herramientas para solucionar este problema se necesita una adaptada al sistema entonativo cubano.
+
+
+
+\subsection*{Hip\'otesis y Objetivo}
+El principal objetivo de esta tesis es desarrollar un anotador autom\'atico que, dado un fragmento de la cadena hablada en la variante cubana del espa\~nol, permita clasificarla en cierta tipolog\'ia de entonemas. Los patrones a reconocer son los 18 planteados por Garc\'ia River\'on \cite[c\'ap. III]{garcia1996aspectos1}.
+
+
+La hip\'otesis plantea que, basado en los rasgos distintivos de la entonaci\'on establecidos por Garc\'ia River\'on, es posible discriminar entre entonemas por medio de t\'ecnicas de aprendizaje supervisado.
+
+\subsubsection*{Objetivos espec\'ificos}
+
+\begin{enumerate}
+\item Estudiar el estado del arte del problema.
+\item Experimentar formas diferentes de representar los segmentos de voz para la aplicaci\'on de Aprendizaje Autom\'atico.
+\item Estudiar los rasgos distintivos de la entonaci\'on y ver c\'omo traducirlos al entorno matem\'atico.
+\item Observar los principales rasgos de preprocesamiento para trabajar con los datos.
+\item Construir un corpus etiquetado por entonemas.
+\item Identificar un conjunto de algoritmos de aprendizaje.
+\end{enumerate}
+
+
+\section*{Propuesta de soluci\'on}
+Se propone la soluci\'on al problema con un enfoque de Aprendizaje Autom\'atico. Los audios de entrada se vectorizan de acuerdo a caracter\'isticas extra\'idas de la curva mel\'odica: entrop\'ia, convoluci\'on, pendiente, espectro de Fourier y coeficientes de detalle en la descomposici\'on del cuarto nivel. Estos rasgos fueron elegidos a partir de las observaciones de Garc\'ia River\'on en sus investigaciones. Para este fin, se necesita construir un corpus anotado por entonemas: para hacerlo m\'as extenso se propone aplicar la t\'ecnica de Aumento de Datos.
+
+
+
+
+\section*{Organizaci\'on de la Tesis}
+El documento est\'a organizado de la siguiente manera: en el Cap\'itulo 1 se abordan los conceptos b\'asicos relevantes relacionados con el problema y el estado del arte; en el Cap\'itulo 2 se profundizan las caracter\'isticas del sistema entonativo planteado por la enton\'ologa Garc\'ia River\'on y sus contrastes con otro modelo de transcripci\'on~(sistema ToBI); el Cap\'itulo 3 se destina a la fundamentaci\'on te\'orica de la propuesta de soluci\'on del problema. En el \'ultimo cap\'itulo se expone la metodolog\'ia empleada y los resultados. Precediendo a la bibliograf\'ia, se han adjuntado algunos anexos que se considera complementan la exposici\'on de la tem\'atica abordada.

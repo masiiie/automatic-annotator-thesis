@@ -1,0 +1,264 @@
+\chapter{Fundamentaci\'on te\'orica} 
+El germen de toda la metodolog\'ia planteada en esta investigaci\'on se basa en los estudios desarrollados 
+por la doctora Raquel Garc\'ia River\'on y de manera muy especial, se apoya en los apuntes del segundo tomo de 
+su trilog\'ia \emph{Aspectos de la entonaci{\'o}n hisp{\'a}nica}  \cite[cap\'itulo II]{garcia1996aspectos2} en el 
+cual dedica un extenso apartado a los \emph{rasgos distintivos de la entonaci\'on}.
+
+\section{Teor\'ia Wavelet} \label{wavelet_theory}
+Como ha definido la Dra. Garc\'ia River\'on, el par\'ametro diferenciador m\'as fuerte entre los entonemas es la forma del movimiento de la F0. Uno de los modelos matem\'aticos que mejor puede capturar la descripci\'on de la forma de una curva es el m\'etodo de la \emph{Transformada Wavelet}~(WT, por sus siglas en ingl\'es, \emph{Wavelet Transform}), el cual funciona perfectamente para analizar se\~nales aperi\'odicas y con ruido\cite{addison2017illustrated}.
+
+
+Al igual que la STFT propone una conversi\'on de la se\~nal al dominio tiempo-frecuencia \cite[p.99]{sundararajan2016discrete} obtiendo una representaci\'on m\'as \'util de la misma. Puede interpretarse como una convoluci\'on entre la se\~nal y un tipo especial de funci\'on: la wavelet~(ond\'icula).
+
+
+
+En esencia, la Transformada Wavelet cuantifica cu\'an bien correlaciona la llamada \emph{wavelet madre} \cite[p.27]{debnath2002wavelet} con la se\~nal para cada par de valores de traslaci\'on y dilataci\'on\footnote{Las ond\'iculas pueden moverse a lo largo de la se\~nal y escalarse (estirarse o estrecharse).}. Toda esta informaci\'on se representa en el bidimensional \emph{plano de la transformada} \cite[p.3]{addison2017illustrated}.
+
+\subsection{Ond\'iculas. Propiedades}
+Una ond\'icula es una funci\'on localizada en el tiempo y con la forma de una peque\~na onda. Sea la funci\'on $\psi(t)$, se considera una wavelet si~\cite[p.10]{addison2017illustrated}:
+\begin{enumerate}
+\item Tiene energ\'ia finita, o sea cumple que:
+	\begin{equation}\label{E:energy}
+	E = \int_{-\infty}^{\infty} |\psi(t)|^{2} dt < \infty
+	\end{equation}
+	
+\item Si 
+	\begin{equation}\label{E:transwav}
+	\hat{\psi}(f) = \int_{-\infty}^{\infty} \psi(t) e^{-i(2\pi f) t} dt
+	\end{equation}
+	es la transformada de Fourier de $\psi(t)$ entonces se cumple:
+	
+		\begin{equation}\label{E:admisibilidad}
+		C_g = \int_{0}^{\infty} \dfrac{|\hat{\psi}(f)|^2}{f} df < \infty
+		\end{equation}
+	lo cual significa que $\psi(t)$ tiene media cero~($\hat{\psi}(0)=0$). A esta propiedad se le llama \emph{condici\'on de admisibilidad} ~\cite[p.11]{debnath2002wavelet} donde $C_g$ es conocida como la constante de admisibilidad y depende de la ond\'icula. 
+\end{enumerate}
+
+Existen otros requerimientos que deben considerarse para catalogar una funci\'on como ond\'icula pero son aplicados principalmente a las llamadas wavelets complejas\footnote{Las wavelets complejas son aquellas que tienen no s\'olo componente real, sino tambi\'en imaginaria. Una muy importante con esta condici\'on es la de \emph{Morlet}\cite[secci\'on 2.11]{addison2017illustrated}.}.
+
+
+\subsection{Transformada Wavelet Discreta}
+Sea la funci\'on wavelet $\psi(t)$ trasladada y dilatada:
+
+$$ \psi_{a,b}(t) = \psi(\dfrac{t-b}{a})  $$
+
+donde se dice que $a$ es el \emph{par\'ametro de dilataci\'on} y $b$ \emph{par\'ametro de traslaci\'on}. 
+
+
+Esta expresi\'on representa el caso continuo de la transformada, puesto que los par\'ametros $a$ y $b$ toman todos los posibles  valores en los reales. 
+
+
+Si solo se consideraran valores discretos de traslaci\'on y dilataci\'on entonces se habla de la Transformada Wavelet Discreta~(DWT, por sus siglas en ingl\'es, \emph{Discrete Wavelet Transform}).
+
+
+Una ond\'icula $\psi(t)$ puede discretizarse mediante la f\'ormula:
+
+\begin{equation}\label{E:discretizacion_a_b}
+	\psi_{m,n}(t) = \dfrac{1}{\sqrt{a_{0}^m}}
+	\psi(\dfrac{t - n b_{0}a_{0}^m}{a_{0}^m})
+\end{equation}
+
+donde:
+
+\begin{enumerate}
+\item  El entero $m$ controla la dilataci\'on.
+\item  El entero $n$ controla la traslaci\'on.
+\item $a_0$ es un par\'ametro de paso de dilataci\'on prefijado mayor que 1.
+\item $b_0$ es el par\'ametro de localizaci\'on que debe ser mayor que 0.
+\end{enumerate}
+
+La DWT de una se\~nal continua $x(t)$ por tanto, se expresa mediante: 
+
+\begin{equation}\label{E:trans_discreta}
+	T_{m,n} = \int_{-\infty}^{\infty} x(t)
+	\dfrac{1}{a_{0}^{m/2}}
+	\psi(a_{0}^{-m}t - nb_0) dt
+\end{equation}
+
+que puede expresarse tambi\'en en t\'erminos del producto escalar:
+
+\begin{equation}\label{E:trans_discreta_inner}
+	T_{m,n} = \langle x, \psi_{m,n}  \rangle
+\end{equation}
+
+En la Transformada Wavelet Discreta los valores de $T_{m,n}$ son conocidos como \emph{coeficientes wavelets} o \emph{coeficientes de detalle}.
+  
+  \subsubsection{Reconstrucci\'on de la se\~nal. Dyadic Grid}
+  
+ La funci\'on $x(t)$ puede reconstruirse como:
+   
+   \begin{equation}\label{E:discrete_reconstrution}
+   	x'(t) = \dfrac{2}{A + B}
+   	\sum_{m=-\infty}^{\infty} 
+   	\sum_{n=-\infty}^{\infty}
+   	T_{m,n} \psi_{m,n}(t)
+   \end{equation}
+   
+   donde $x'(t)$ es la reconstrucci\'on difiriendo de la se\~nal original, $T_{m,n} $  son los coeficientes de detalle y $A, B$ son par\'ametros del enfoque de Marcos de Wavelet\footnote{Permite determinar cu\'an buena es la representaci\'on de una se\~nal con DWT.} \cite{addison2017illustrated} \cite{debnath2002wavelet} que son elegidos convenientemente y dependen de los par\'ametros de dilataci\'on y traslaci\'on $a_0,b_0$. Si $A = B$, la reconstrucci\'on es exacta.
+   
+   
+   
+   Al aplicar \emph{Dyadic Grid}\footnote{Es muy com\'un que los valores de $a_0$, $b_0$ se prefijen como 2 y 1 respectivamente puesto que adem\'as de ser la forma de discretizaci\'on m\'as simple y eficaz, define una base de ond\'icula ortonormal. A este arreglo se le conoce como Dyadic Grid.} \cite{addison2017illustrated} la se\~nal puede ser reconstruida en t\'ermino de los coeficientes de detalle, puesto que $\{ \psi_{m,n}(t) \}$ es ahora una base ortonormal:
+    
+     \begin{equation}\label{E:discrete_reconstrution_dg}
+      	x(t) = \sum_{m=-\infty}^{\infty} 
+      	\sum_{n=-\infty}^{\infty}
+      	T_{m,n} \psi_{m,n}(t)
+      \end{equation}
+      
+      
+\subsubsection{Funci\'on de escala. Representaci\'on multiresoluci\'on}
+A las funciones ond\'iculas discretas ortonormalizadas con Dyadic Grid se les asocian \emph{funciones de escala} \cite[secci\'on 3.2.3]{addison2017illustrated} \cite{sundararajan2016discrete} \cite{debnath2002wavelet}. La funci\'on de escala est\'a relacionanda con la suavidad de la se\~nal y se expresa:
+
+  \begin{equation}\label{E:scaling_function}
+  	\phi_{m,n}(t) = 2^{-m/2}\phi(2^{-m}t - n)
+  \end{equation}
+  
+  
+  De la misma forma que existe la ond\'icula madre, an\'alogamente para las funciones de escala est\'a la \emph{funci\'on de escala padre} o  simplemete \emph{wavelet padre},  $\phi_{0,0}(t) = \phi(t)$, y cumple \cite{addison2017illustrated} \cite[p.377]{debnath2002wavelet}:
+  
+   \begin{equation}\label{E:p1sf}
+    \int_{-\infty}^{\infty}	\phi_{0,0}(t) dt = 1
+    \end{equation}
+    
+La convoluci\'on de la funci\'on de escala con la se\~nal produce los llamados \emph{coeficientes de aproximaci\'on} \cite{addison2017illustrated}:
+
+ \begin{equation}\label{E:scala_conv}
+     	S_{m,n} = \int_{-\infty}^{\infty}
+     	x(t) \phi_{m,n}(t) dt
+ \end{equation}
+
+
+Se puede obtener una \emph{aproximaci\'on continua} de la se\~nal de escala $m$ de la siguiente manera:
+
+ \begin{equation}\label{E:aproximaccion_continua_m}
+ x_m(t) = \sum_{n=-\infty}^{\infty}
+     	S_{m,n} \phi_{m,n}(t)
+ \end{equation}
+ 
+ donde $x_m(t)$ es una versi\'on de la se\~nal original que depende de la funci\'on de escala \'indice $m$.
+ 
+ Finalmente, la se\~nal puede reconstruirse a partir una aproximaci\'on continua mejorada con los coeficientes de detalle:
+ 
+ \begin{equation}\label{E:rec_ca_cd}
+ x(t) = x_{m_0}(t) +
+     	\sum_{m=-\infty}^{m_0} d_m(t)
+ \end{equation} 
+ 
+ 
+ donde $m_0$ es un \'indice de escala arbitrario y $d_m(t)$ es conocido como \emph{detalle de la se\~nal} y se expresa:
+ 
+ \begin{equation}\label{E:signal_detail}
+  d_m(t) = \sum_{n=-\infty}^{\infty}
+   	T_{m,n}\psi_{m,n}(t)	
+ \end{equation} 
+ 
+ De la ecuaci\'on \ref{E:rec_ca_cd} se deslinda f\'acilmente lo que se conoce como \emph{representaci\'on multiresoluci\'on}:
+ 
+ \begin{equation}\label{E:multiresolution_representation}
+   x_{m-1}(t) = x_{m}(t) + d_m(t)
+  \end{equation} 
+  
+  
+  Esta propiedad es una de las m\'as atractivas de la Teor\'ia Wavelet y sus aplicaciones son dis\'imiles \cite{barba2011reconocimiento, cano2010analisis}.
+ 
+
+\section{Aprendizaje autom\'atico}
+El enfoque de tratamiento m\'as fuerte con que se ha enfrentado el problema ha sido el Aprendizaje Autom\'atico~(ML, por sus siglas en ingl\'es, \emph{Machine Learning}). De manera espec\'ifica se propone la variante de \emph{aprendizaje supervisado} puesto que, aunque son complejos, se conocen los criterios que permiten discriminar entre los datos para asociarle una u otra categor\'ia, las cuales tambi\'en han sido previamente definidas.
+
+
+Se trata de aprendizaje supervisado \cite[p.695]{russell2002artificial} cuando se tiene como entrada del algoritmo un \emph{conjunto de entrenamiento}, sea la sucesi\'on $\{ ((x^{(i)}, y^{(i)})\}$, y se espera conocer la funci\'on $f$ mediante la cual se produce la asociaci\'on $x\Rightarrow y$\footnote{Cada elemento $x$ se expresa por un juego de caracter\'isticas alineadas $x = [x_0,x_1,...,x_n]$, donde $n$ es fijo para un conjunto de entrenamiento dado.}. La funci\'on $h_\theta(x)$, referida como \emph{hip\'otesis}, se define para aproximar a $f$. Los par\'ametros $\theta = [\theta_0, \theta_1, ..., \theta_n]$ se ajustan para encontrar la hip\'otesis que mejor refleja la naturaleza del problema y se hallan resolviendo el problema de optimizaci\'on asociado a la minimizaci\'on de la llamada \emph{funci\'on de costo} $J(\theta)$ que cuantifica el error de la predicci\'on de un modelo sobre un determinado conjunto. $J(\theta)$ tiene la forma:
+
+$$ J(\theta) = \dfrac{1}{2m} \sum\limits_{i=1}^{m} (h_{\theta}(x^{(i)}) - y^{(i)})^2 $$
+
+ donde $x^{(i)}$ es el $i$-\'esimo elemento del conjunto de tama\~no $m$ para el cual el clasificador predice la etiqueta $y^{(i)}$.
+
+
+Los clasificadores utilizados en la experimentaci\'on han sido: 
+ \begin{description}
+ \item[Regresi\'on Log\'istica:] Etiqueta los elementos con un umbral de clasificaci\'on \cite{murphy2012machine}. Su hip\'otesis plantea:
+ \begin{equation}\label{E:logistic_regression_hipotesis}
+ h_\theta(x) = \dfrac{1}{1 + e^{-\theta^Tx}}
+ \end{equation}
+ \item[SVM:] Las M\'aquinas de Soporte Vectorial~(SVM, por sus siglas en ingl\'es, \emph{Support Vector Machine}) surgen 1963  por iniciativa de Vladimir N. Vapnik y Alexei Ya. Chervonenkis en la Uni\'on Sovi\'etica. 
+ Su hip\'otesis discrimina los datos con la construcci\'on de un hiperplano lineal que maximiza la distancia m\'inima posible entre los elementos. Incluye el uso de funciones de \emph{kernel} para la b\'usqueda del plano separador en una mayor dimensi\'on de los datos si es necesario \cite[p.15]{francois2017deep} \cite{duda2012pattern}.
+ \end{description}
+
+
+
+
+\begin{comment}
+\subsection{Curva de aprendizaje, matriz de confusi\'on}
+\subsection{M\'etricas}
+\subsubsection{Validaci\'on cruzada}
+\subsubsection{Presici\'on, recobrado y medida f0.}
+
+
+\subsection{Feature selection}
+\subsection{Correlation, anova test, feature importance}
+\subsection{Dataset balanceado}
+\subsection{Overfitting y underfitting}
+\end{comment}
+
+
+
+
+\section{Descriptores de la curva} 
+\subsection{Convoluci\'on linear}
+
+La \emph{convoluci\'on} es una operaci\'on mediante la cual se obtiene una funci\'on que representa la suma de superposici\'on entre una funci\'on $f$ y la versi\'on trasladada e invertida de otra funci\'on $g$.
+
+
+Para el caso discreto la \emph{convoluci\'on}\footnote{ \url{https://mue.music.miami.edu/thesis/jvandekieft/jvchapter2.htm, https://ccrma.stanford.edu/~jos/Misc/Linear_Convolution_finite_length.html}).}  puede calcularse como:
+
+$$ (f*g)[n] = \sum\limits_{k=0}^{N-1} f[k]g[n-k]$$
+
+
+Se hace la distini\'on de linear, puesto que tambi\'en existe la convoluci\'on circular que se calcula:
+ $$ (f \circledast g)[n] = \sum\limits_{k=0}^{N-1} f[k]g[n-k]_N$$ 
+ 
+ donde $[n-k]_N$ significa $(n-k)$ m\'odulo $N$
+
+\subsection{Entrop\'ia}
+La \emph{entrop\'ia}\footnote{Teor\'ia de la informaci\'on de Shannon.} \cite{addison2017illustrated} \cite[p.703]{russell2002artificial} es una importante medida de informaci\'on  y cuantifica la incertidumbre de una \emph{variable aleatoria}. Para una muestra discreta $p = [p_1, p_2, ..., p_n]$ puede ser calculada como: 
+
+   $$ S(p) = -\sum_{i=0}^n p_i log_2(p_i) $$
+   
+Un valor peque\~no de entrop\'ia indica alto contenido de informaci\'on. 
+
+\subsection{Pendiente}
+Tradicionalmete se habla de la \emph{pendiente} de una recta como una medida de su inclinaci\'on respecto a la horizontal. Para el caso de una curva $f(x)$ arbitraria, pudiera ser considerada como $n$ en la expresi\'on: $$F(x) = nx + n_0$$ donde
+$F(x)$ es una aproximaci\'on  por \emph{m\'inimos cuadrados} \cite[p.59]{gautschinumerical} de $f(x)$ de grado 1 con funciones base polin\'omicas. 
+
+
+\subsection{Espectro de potencias}
+ Sea $f$ una se\~nal peri\'odica, a la sucesi\'on ${\hat{f}_0}^2, {\hat{f}_1}^2, ..., {\hat{f}_n}^2$ se le llama \emph{espectro de potencias} o simplemente \emph{espectro} \cite{hansen2014fourier}, donde $\hat{f}$ son los coeficientes de la \emph{transformada discreta de Fourier}. Tambi\'en puede calcularse solo como $\{|\hat{f}_i|\}$. Da la medida de cu\'anto hay de cada frecuencia en la se\~nal.
+
+\section{Aumento de Datos} \label{aumento}
+La aplicaci\'on de Aprendizaje Autom\'atico, de manera general, requiere el uso de grandes cantidades de datos
+para entrenar y sobre todo en los casos en los que se han considerado tantos par\'ametros para caracterizarlos. Desafortunadamente, es com\'un que se cuente solo con un corpus peque\~no y que adem\'as sea complicado construir datos nuevos para enriquecerlo.  
+
+
+Por este motivo, nace la t\'ecnica de \emph{Aumento de Datos}~(DA, por sus siglas en ingl\'es, \emph{Data Augmentation}) \cite{imai2005bayesian, hernandez2018data} que permite generar muestras artificiales a partir de diversas transformaciones aplicadas sobre otras generadas naturalmente. Usualmente es utilizada para aumentar el conjunto de entrenamiento. Ha sido llevada al campo del Procesamiento de Im\'agenes, el Reconocimiento Autom\'atico de Voz (ASR, por sus siglas en ingl\'es, \emph{Automatic Speech Recognition}) y hasta a la producci\'on y an\'alisis musical \cite{mcfee2015software, bhardwajaudio}.
+
+
+
+Las transformaciones aplicadas dependen del objeto a sintetizar. En el Aumento de Datos para las im\'agenes, por ejemplo, lo que m\'as se utiliza es la rotaci\'on, el acercamiento(\emph{zoom}) y la traslaci\'on\cite{xue2016cnn, kim2020deepcapture}. En el caso de segmentos de voz la operaciones son otras. Se pueden tomar de ejemplo las siguientes que en adici\'on fueron las aplicadas en el experimento. Cada una fue producida con par\'ametros aleatorios.
+
+
+Sea $\{x_i\}, i \in [1, N], i \in \mathbb{Z}$ la sucesi\'on que representa la se\~nal digital del audio de entrada:
+\begin{enumerate}
+\item Mezclar con otro sonido arbitrario que sirva de fondo. Esencialmente se produce con la suma $\{x_i + x_n\}$ donde $\{x_n\}$ es la sucesi\'on de la se\~nal que representa el ruido modificada a conveniencia.
+\item Mezclar con peque\~nos  sonidos entre los cuales existen pausas arbitrarias. Se utiliza particularmente para cuando el segmento de audio original no tiene ruido y se desea simular un contexto en el que a veces se escuchan sonidos cortos de fondo.
+\item A\~nadir ruido gaussiano\footnote{\url{https://www.researchgate.net/post/What_is_the_difference_between_Gaussian_noise_and_Random_Valued_Impulse_Noise}} a la muestra. Este tipo de ruido se produce con  distribuci\'on normal o gaussiana \cite{ross2009first}, que se denota como $X \sim N(\mu, \sigma^2)$ donde $\mu$ es la media y $\sigma^2$ es la varianza.
+\item A\~nadir ruido gaussiano con SNR~(por sus siglas en ingl\'es, \emph{Signal to Noise Ratio})\footnote{\url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}} que es una medida muy utilizada en diversos campos como la medicina, la econom\'ia y la biolog\'ia pero en este caso se utiliza para comparar la amplitud de la se\~nal con el ruido de fondo \cite{thangjai2019confidence}.
+\item Producir la convoluci\'on del audio con un IR~(por sus siglas en ingl\'es, \emph{Impulse Response})\footnote{\url{http://tulrich.com/recording/ir_capture/, https://ccrma.stanford.edu/~jos/filters/Impulse_Response_I_I.html}} arbitrario.
+\item Ocultar una banda de tiempo del segmento de audio \cite{park2019specaugment}.
+\item Ocultar una banda de frecuencia en el espectrograma del audio \cite{park2019specaugment}. 
+\item Trasladar las muestras hacia adelante o hacia atr\'as con $k$ pasos\footnote{Casi exactamente la operaci\'on que se produce con \textit{numpy.roll()} de Python.}. Si $k>0$ entonces se obtiene $\{x_{N-k+1}\cdots x_N, x_1\cdots x_{N-k}\}$. Si $k<0$ entonces el resultado es $\{x_{|k|+1}\cdots x_N, x_1\cdots x_{|k|}\}$. Esta operaci\'on cuenta con el par\'ametro \textit{rollover} a partir del cual se deriva una versi\'on m\'as: si \textit{rollover == False} se igualan a cero los primeros $k$ lugares si $k>0$, si de lo contrario $k<0$, se igualan a cero los \'ultimos $k$ lugares.
+\item Dilatar o acortar el tiempo de la se\~nal sin alterar el movimiento de la \emph{frecuencia fundamental} \cite{lu2017bidirectional, bhardwajaudio}.
+\item Trasladar la \emph{curva mel\'odica} $n$ pasos sin afectar el tiempo \cite{bhardwajaudio}. Para lograr este efecto se han probado varias t\'ecnicas \cite{sturm2006pitch} desde enfoques con la \emph{Transformada de Fourier} hasta el uso de Constant Q -- Transform \cite{schorkhuber2012pitch}.
+\item Considerar m\'as o menos puntos para representar la se\~nal~(upsampling\cite[ac\'apite 4.6.2]{oppenheim2001discrete}, downsampling\cite[ac\'apite 4.6.2]{oppenheim2001discrete}, respectivamente).
+\item Distorcionar la se\~nal nivelando un porcentaje de puntos arbitrario, es decir, dado el porciento se determina un intervalo, sea $[a,b]$ y todos los valores fuera de \'el se igualan a los l\'imtes del mismo: todo $x_j, j < a$ se iguala a $x_a$ y todo $x_j, j>b$ se iguala a $x_b$. Tal porciento es tomado de una distribuci\'on uniforme. Los \'indices $\{a,b\}$ tambi\'en pueden ser negativos.
+\item Normalizar la muestra, o sea, se obtiene la sucesi\'on $\left\{ \dfrac{x_i}{x_{max}}  \right\}$ donde $x_{max} = max(\{x_i\})$. Los nuevos valores se ubican en el rango de $[1,-1]$.
+\end{enumerate}

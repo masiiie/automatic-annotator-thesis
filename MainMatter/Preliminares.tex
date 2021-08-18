@@ -1,0 +1,115 @@
+\chapter{Preliminares}
+En este cap\'itulo se exponen elementos matem\'aticos de los que depende la comprensi\'on de toda la l\'inea explicativa de esta tesis. 
+
+\section{An\'alisis de Fourier} \label{fourier}
+Cualquier se\~nal peri\'odica $f(t)$ con per\'iodo $T$ puede describirse mediante la expresi\'on:
+
+\begin{equation}\label{E:sf}
+f(t) = \sum_{k = -\infty}^{\infty}
+c_k e^{2 \pi i \dfrac{k}{T} t}
+\end{equation}
+
+
+El t\'ermino $k = 0$, $c_0$ es una constante e indica la componente continua, el valor medio de la se\~nal.
+
+
+Los t\'erminos $k = \pm n$, $c_{-n} e^{-2 \pi i \dfrac{n}{T} t} + c_n e^{2 \pi i \dfrac{n}{T} t}$, son peri\'odicos, de frecuencia $n \dfrac{1}{T}$ y periodo $\dfrac{T}{n}$. Por tanto se dice que $f(t)$ puede expresarse como m\'ultiplos de $\dfrac{1}{T}$, t\'ermino al que se le denomina \emph{frecuencia fundamental} o \emph{F0}. A la expresi\'on \ref{E:sf} se le denomina Serie de Fourier y a los t\'erminos $c_k$, \emph{coeficientes de Fourier} \cite{gautschinumerical, hansen2014fourier}.
+
+
+
+\begin{comment}
+recordar q formula fea fue resultado de combinar lo q vi en el libro viejo(hansen2014fourier) y en wifipedia
+\end{comment}
+
+
+\subsection{Transformada de Fourier} 
+Los coeficientes de Fourier pueden calcularse como:
+
+\begin{equation}\label{E:transformada_fourier_continua}
+c_k = \dfrac{1}{T} \int_{-T/2}^{T/2}
+f(t) e^{-2 \pi i \dfrac{k}{T} t} dt
+\end{equation}
+
+para el caso continuo, y:
+
+
+\begin{equation}\label{E:transformada_fourier_discreta}
+c_k = \dfrac{1}{N}
+\sum\limits_{l = 0}^{N-1}
+f(x_l) e^{-2 \pi i \dfrac{k}{T} t} 
+\end{equation}
+
+para el caso discreto, donde $N$ es la cantidad de puntos en el intervalo $[-\dfrac{T}{2}, \dfrac{T}{2}]$ y $x_l$, lo puntos muestrales. 
+
+A las expresiones (\ref{E:transformada_fourier_continua}) y (\ref{E:transformada_fourier_discreta}) se les conoce como Transformada Continua de Fourier y Transformada Discreta de Fourier respectivamente.
+
+
+Con la intensi\'on de agilizar el c\'alculo de los coeficientes discretos de Fourier varios estudiosos encontraron algoritmos que actualmente son conocidos como la Transformada R\'apida de Fourier ~(FFT, por sus siglas en ingl\'es, \emph{Fast Fourier Transform}), aunque se considera como punto de partida la propuesta de Cooley y Tukey en 1965 \cite{gautschinumerical}.
+
+
+\subsection{Espectrograma} \label{espectrograma}
+El uso de espectrogramas es uno de los m\'etodos que permiten convertir la se\~nal de voz, o cualquier otra\footnote{ Especialmente las se\~nales el\'ectricas, de comunicaciones, y las audiovisuales.}, al dominio tiempo-frecuencia. Es la representaci\'on intensiva de la Transformada de Fourier de Tiempo Reducido ~(STFT, por sus siglas en ingl\'es, \emph{Short Time Fourier Transform})\cite{flandrin2015time} de la se\~nal, o sea, la aplicaci\'on sucesiva de la FFT  sobre peque\~nas ventanas de la se\~nal que son de tama\~no fijo y solapadas en el tiempo\footnote{\url{https://ccrma.stanford.edu/~jos/mdft/Spectrograms.html}}. De esta forma se pueden observar los valores de cada frecuencia de la onda en cada instante del tiempo.
+
+
+Los espectrogramas son indiscutiblemente importantes para visualizar y comprender el movimiento de los arm\'onicos de una se\~nal y de manera particular, para observar la evoluci\'on de la \emph{frecuencia fundamental} en un segmento de voz.
+
+\section{Voz humana}
+Puesto que la voz humana es una se\~nal cuasiperi\'odica \cite{droguett2017aplicaciones, schroeder2013computer} puede entonces analizarse con toda la teor\'ia explicada en la secci\'on \ref{fourier}. Este enfoque se puede encontrar detalladamente en \cite[secci\'on 7.5]{schroeder2013computer}. Matem\'aticamente se puede considerar que es una funci\'on que  denota la presi\'on de aire con que se habla en funci\'on del tiempo \cite{schroeder2013computer}.
+
+
+\subsection{Entonaci\'on} 
+La \emph{melod\'ia}\footnote{\url{http://liceu.uab.es/~joaquim/phonetics/fon_anal_acus/fon_acust.html}} \cite{hualde2005sounds, castellanos2004estimacion} es un elemento suprasegmental que se manifiesta en el nivel del enunciado  y se percibe por las variaciones de la voz que dependen de la velocidad de apertura o cierre de las cuerdas vocales en la laringe durante la fonaci\'on de sonidos del tipo sonoro\footnote{\url{https://www.scribd.com/doc/266280895/Entonacion-y-Curva-Melodica}}.
+
+Como resultado de estos cambios en la frecuencia de vibraci\'on de los pliegues vocales se produce la evoluci\'on en el
+ tiempo de la frecuencia fundamental\cite{pierrehumbert1981synthesizing, alessandroni2019vocalidades}.
+
+
+La \emph{entonaci\'on} \cite{serena2002teoria} puede concebirse como el resultado de integrar la melod\'ia y el \emph{acento}\footnote{Es considerado por Tom\'as Navarro como un fen\'omeno de intensidad \cite{ruiz2014entonacion}.} \cite{font2008melodia}. 
+
+
+
+\subsection{Curva mel\'odica}
+A la representaci\'on ac\'ustica de la entonaci\'on se le conoce como \emph{curva mel\'odica} o \emph{pitch}. 
+
+
+Se han aplicado diversos m\'etodos para estimar el movimiento de la frecuencia fundamental, desde el uso de espectrogramas ~(ver secci\'on \ref{espectrograma}) \cite{diaz2003algoritmo} hasta la aplicaci\'on de \emph{Transformada Wavelet} \cite{castellanos2004estimacion}~(secci\'on \ref{wavelet_theory}).
+
+\begin{comment}
+
+- En github hay un proyecto de septiembre de 2019 que es un anotador automatico escrito en Python complementado con Praat(hay que descargarse Praat) para el modelo ToBi
+
+- Proyecto glissando: Grabacion de corpus prosodico de noticias y dialogos en espanol
+
+-parece q es importante la construccion de corpus prosodicos
+
+- Glissando es un corpus prosodico 
+	- los audios tienen cada uno varias caracteristicas entre ellos su etiqueta de entonacion en forma de transcripcion Tobi y para he ello se ha notado muchisimo lo util de tener un anotador automatico con Tobi
+	- Una parte del corpus la anotaron con MelAn, un anotador automatico que produce transcripciones en el modelo IPO
+	- tambien hicieron la particion del habla continua por segmentos(en silabas, frases mayores y menores). Las mayores 
+	son las q se acaban con un silencio o una pausa (?breath-groups?). Las menores(frases intermedias) determinan un contorno de F0 completo, que los oyentes perciben como terminal.
+	- SegProso fue la herramienta que usaron para picar por frases ( GLiCom group at Pompeu Fabra University)
+	- MelAn (Garrido 2010)
+	
+	
+	- Aunque por cada segmento de audio recoge varias caracter\'isticas como la transcripci\'on ortogr\'afica, archiva informaci\'on sobre el contorno entonativo codificado al estilo del modelo ToBI, el cual ser\'a referido m\'as adelante.
+	
+	
+MoMel: posiblemente el primer anotador automatico que ha existido creo que es de INSINT
+\end{comment}
+
+
+\section{Estado del Arte}
+Con los avances en el estudio de la entonaci\'on, se ha hecho m\'as evidente la necesidad de contar con instrumentos para detectar de forma autom\'atica los contornos entonativos del habla. Una de las aplicaciones m\'as fuertes, es la construcci\'on de corpus pros\'odicos. Puede que el caso m\'as representativo y actualizado de esto sea el corpus \emph{Glissando}, con muestras de noticias y di\'alogos grabados en castellano y catal\'an.  En este contexto y para apoyar el etiquetado, fue utilizada la herramienta MelAn~(Garrido 2010) que produce transcripciones en el modelo IPO\footnote{Modelo de anotaci\'on pros\'odica.} \cite{garrido2013glissando, alminana2018using}. Aunque estos resultados son bastante recientes, se registra que probablemente, el primer anotador autom\'atico conocido sea MoMel de 1993 desarrollado por Daniel Hirst y Robert Espesser. 
+
+
+Uno de los modelos de transcripci\'on pros\'odica m\'as extendido es el modelo ToBI~(ver secci\'on \ref{tobi}). Inspirados en \'el han surgido tambi\'en varias herramientas para la anotaci\'on autom\'atica:
+
+\begin{description}
+\item[2010-AuToBI:]  Es el primer anotador autom\'atico p\'ublico conocido para ToBI. Detecta frases intermedias y entonativas \cite{rosenberg2010autobi}. 
+\item[2012-AmperEti:] Surge en el marco del proyecto AMPER. Aunque se ha extendido a otras lenguas rom\'anicas fue concebido para el friulano \cite{roseanoetiquetaje}.
+\item[2015-Eti\_ToBI:] Para detectar eventos entonativos del espa\~nol y el catal\'an bajo las convenciones de Sp\_ToBI and Cat\_ToBI \cite{elvira2016tool}.
+\item[2017-FonetiToBi:] Basado en Praat. Como entrada exige el archivo .wav y un TextGrid con la transcripci\'on ortogr\'afica y fon\'etica del segmento de voz ~(ver anexo \ref{textgrid}) \cite{lahoz2019subsidia}.
+\end{description}
+
+
+Como se ha dicho antes, el problema que ocupa la presente investigaci\'on, consiste en la anotaci\'on de la curva mel\'odica para categorizarla seg\'un un patr\'on u otro, pero cabe recalcar una vez m\'as, que se trata de la anotaci\'on de \emph{frases intermedias} ~(ver secci\'on \ref{autosegmental}) puesto que la tarea de segmentar la cadena hablada por unidades es una cuesti\'on particular y tambi\'en han surgido recursos para solucionarlo como SPPAS de 2012 \cite{bigi2012sppas} y  SegProso de 2013 \cite{garridosegproso}, pero no est\'an adaptadas para la variante cubana del espa\~nol.
